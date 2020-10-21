@@ -1,0 +1,441 @@
+#+SETUPFILE: ~/.emacs.d/org-templates/html.org
+#+TITLE: Meta Programming and Macros
+
+* What is meta programming?
+
+- The ability to treat our code as data
+- Using information about our source code in our program
+- Ex. In C# we can use reflection to get a list of all properties of an object
+
+* What are macros?
+
+- Macros are the ability to transform our code at compile time
+- Macros are a form of meta programming
+  - They analyze the code provided to them as data
+  - Then they return new code to be compiled
+- In Lisp, we can create macros as simply as writing a function
+
+* Why write macros?
+
+- In what scenario would we really need to transform our syntax?
+- Sounds like complex theory crap that we shouldn't worry about
+- In practice, it's just another abstraction tool.
+  - Just like objects in OOP or higher-order functions in FP.
+
+* A simple while loop
+
+In Lisp, as we all know, we tend to favour recursion. Afterall, why not? Tail-recursion just gets
+optmized into loops anyways, so it's not like we're loosing much performance. Let's look at what
+happens if we take a common pattern for a loop and make it recursive following the same logic we'd
+use in Java:
+
+#+begin_src racket
+(define x 10)
+(define [looper]
+  (when (> x 0)
+    (println x)
+    (set! x (- x 1))
+    (looper)))
+(looper)
+#+end_src
+
+Now, this is just a while loop, and one of the great things about Lisp is that we can get rid of a
+lot of boilerplate - but boilerplate is exactly what this is - we need to define a function to do
+our looping for us and then call it. That's silly. 
+
+* First look at macros
+
+We can use macros to write our own while loop that uses tail-recursion so that we can write this
+pattern once and then use our abstraction every time instead:
+
+#+BEGIN_SRC racket
+(define-syntax while
+  (syntax-rules ()
+    [(_ condition body ...)
+     (begin
+       (define [looper]
+         (when condition
+           body ...
+           (looper)))
+       (looper))]))
+#+END_SRC
+
+Now, we can use our while loop as we'd expect:
+
+#+begin_src racket
+(define x 10)
+(while (> x 0)
+  (println x)
+  (set! x (- x 1)))
+#+end_src
+
+And we have a while loop! Now, this doesn't implement break and continue, which might be helpful for
+a more serious implementation, but using Racket macros we could implement those too - we'll move on
+for now though.
+
+* Inspecting and debugging macros
+
+We can use the ~expand-once~ function to see what our macros will output:
+
+#+BEGIN_SRC racket
+> (expand-once
+    '(while condition
+       (do-something)))
+;; Outputs
+(begin 
+  (define looper
+    (lambda ()
+      (when condition 
+        (do-something) 
+        (looper))))
+  (looper))
+#+END_SRC
+
+And this is exactly what we expect it to be! We can use this ~expand-once~ to inspect our
+macro-expansions and debug them.
+
+* How does this work?
+
+In most programming languages, there's this dichotomy of code and data. In Lisp languages, this
+dichotomy doesn't exist. Consider the following code:
+
+#+begin_src racket
+(println (let ([x 10] [y 20])
+            (* x y)))
+#+end_src
+
+This code will calculate the product of ~x~ and ~y~, and then print it. It's pretty straighforards. But
+how about if we make a small modification to it:
+
+#+begin_src racket
+(println '(let ([x 10] [y 20])
+             (* x y)))
+#+end_src
+
+All we've done is added a single ~'~ in front of the ~let~, and the meaning of this code has completely
+changed. Instead of the argument to ~println~ being an expression that calculates and returns a
+result, the argument is now a linked list with 3 elements: ~let~, ~([x 10] [y 20])~ and ~(* x
+y)~. Completely different meaning now. 
+
+* A quick detour to Common Lisp
+
+When we define functions, the parameters to those functions are evaluated before being passed in,
+whereas in macros they're not. The arguments to our macros are the code itself. This is a little
+easier to see in Common Lisp than in Racket. We'll define a simple Common Lisp macro here:
+
+#+begin_src lisp
+> (defmacro example (x)
+    (print x)
+    x)
+
+> (example (let ((x 10) (y 20))
+             (* x y)))
+(LET ((X 10) (Y 20)) 
+  (* X Y))
+200
+#+end_src
+
+When we run this, the macro will print out it's argument, which isn't what our ~let~ evaluates too,
+but rather the ~let~ itself. So the arguments to our macros is the /code/ we pass to it, which it's able
+to manipulate as linked lists using the same old ~car~, ~cdr~ and ~cons~ that we use all the time.
+
+* What's wrong with functions?
+
+So this macro crap just expanded to a bunch of functions, why use them? What's wrong with functions?
+Nothing is wrong with functions. They just serve adifferent purpose. Let's try implementing our
+~while~ loop using a function, and we'll see how different this is now:
+
+#+BEGIN_SRC racket
+(define [while-loop condition body]
+  (when (condition)
+    (body)
+    (while-loop condition body)))
+#+END_SRC
+
+This looks like it'll work fine, but what about when we want to try actually using this?
+
+#+BEGIN_SRC racket
+(define x 10)
+(while-loop (lambda () (> x 0))
+  (lambda () 
+    (println x)
+    (set! x (- x 1))))
+#+END_SRC
+
+Now everything is just wrapped in ~lambda~, which, while it works, is pretty ugly and much more 
+verbose than before.
+
+So we can use macros as just another abstraction tool to simplify and clean up our code in the same
+way that we could do by writing functions or creating new classes.
+
+* Threading macros
+
+If you're still not convinced, here's a macro that would allow us to pipe our data between function
+calls so that we don't need to have deep nested calls:
+
+#+begin_src racket
+(define-syntax ->>
+  (syntax-rules ()
+    [(_ x) x]
+    [(_ x (f ...)) (f ... x)]
+    [(_ x y) (y x)]
+    [(_ x y z ...) (->> (->> x y) z ...)]))
+#+end_src
+
+Now if we wanted to run a list through a sequence of operations, we pipe them instead of nesting.
+
+#+begin_src racket
+(foldr (lambda (a x) (+ a x)) 
+       0 
+       (map (lambda (x) (* x 2)) 
+            (filter (lambda (x) (even? x))
+                    (list 1 2 3 4 5)))))
+#+end_src
+
+#+begin_src racket
+(->> (list 1 2 3 4 5)
+     (filter (lambda (x) (even? x)))
+     (map (lambda (x) (* x 2)))
+     (foldr (lambda (a x) (+ a x)) 0))
+#+end_src
+
+Which is much clearer about what we're doing here than simply having a bunch of nested function
+calls. We could also easily construct the ~->~ variation of the threading macro that defaults to
+inserting the argument as the first parameter.
+
+* Lisp as Lambdas
+
+A whole lot of what we do in Lisp can be boiled down to macros around lambdas. Our ~while~ loop is one
+example, but even ~let~ can be thought of as syntactic sugar over a lambda call:
+
+#+begin_src racket
+(let ((x 10) (y 20))
+  (* x y))
+#+end_src
+
+Is functionally identical to the following:
+
+#+begin_src racket
+((lambda (x y) 
+   (* x y))
+ 10 20)
+#+end_src
+
+But we use ~let~ because it's much cleaner. Here's how ~let~ could be defined though:
+
+#+begin_src racket
+(define-syntax mlet
+  (syntax-rules ()
+    [(_ ((id value) ...) body ...)
+     ((lambda (id ...) body ...)
+      value ...)]))
+#+end_src
+
+As you can see, ~let~ is just a simple macro around an immediately invoked lambda. 
+
+* Named ~let~
+
+Another useful form for ~let~ is the /named/ ~let~, which allows us to call our ~let~ block recursively. 
+Again, we can define this almost entirely in terms of lambdas.
+
+#+begin_src racket
+(define-syntax rec
+  (syntax-rules ()
+    [(_ (name . args) body ...)
+     (rec name (lambda args body ...))]
+    [(_ name value)
+     (let ()
+       (define name value)
+       name)]))
+       
+(define-syntax nlet
+  (syntax-rules ()
+    [(_ tag ((id value) ...) body ...)
+     ((rec (tag id ...) 
+        body ...) 
+      value ...)]))
+#+end_src
+
+Of course we have a ~let~ in the ~rec~ macro, but that's alright because we've already defined our ~let~
+macro. We also have a single ~define~, which is also alright because ~define~ is a core primitive, we
+need it to be able to define recursion unless we want to dig into the lambda calculus y-combinator.
+
+We can now use our ~nlet~ like below, and it will return the sum of all the elements in the list.
+
+#+begin_src racket
+(nlet sum ([lst (list 1 2 3 4 5 6 7 8 9 10)])
+  (if (empty? lst) 0 
+      (+ (car lst) (sum (cdr lst)))))
+#+end_src
+
+* Macros in unexpected places
+
+Macros are so prevalent, that not only can our control flow contructs be built using them, but even
+much more unsuspecting things. Consider the following function:
+
+ #+begin_src racket
+(define/match [or . args]
+  [((list)) #true]
+  [((list x)) x]
+  [((cons x xs)) (if x x (apply or xs))])
+ #+end_src
+
+ This looks like a pretty reasonable definition for a logical ~or~. Say we call it as
+
+#+begin_src racket
+(or #false #false 10 #false)
+#+end_src
+
+Then it'll return ~10~ as expected, because ~or~ in Lisp doesn't return a boolean but rather the first
+non-false element. So this is exactly what we expect. But what about if we do this:
+
+#+begin_src racket
+(or #t (some-long-function-to-compute))
+#+end_src
+
+Then we're gonna run into an issue, because the long function is going to be execute so that it's
+output can be passed to ~or~, which means even though this ~or~ is always going to be true, we have to
+wait anyways for this function. 
+
+* Boolean operators as macros
+
+We can instead redefine our ~and~ and ~or~ constructs to be macros instead so that we evaluate one at a
+time and don't compute values needlessly - that way as soon as one value is true, we can say our ~or~
+is true:
+
+#+begin_src racket
+(define-syntax or
+  (syntax-rules ()
+    [(_) #true]
+    [(_ x) x]
+    [(_ x xs ...)
+     (if x x (or xs ...))]))
+#+end_src
+
+This way, instead of computing every argument, we have a series of if-expressions, which will only
+evaluate branches that it needs to go into.
+
+* Language-Oriented Programming
+
+So macros can be used for a lot. We've used them to define looping constructs, logical operators,
+recursive blocks, threading macros. and we could define a whole lot more. We can build entire 
+languages out of macros, and that's something Racket does really well. Racket is a language that was
+designed to do /language-oriented programming/. 
+
+* Riposte
+
+Riposte is a language built on-top of Racket designed to be a scripting language for testing REST
+APIs. Here's how you'd ensure a JSON response matches a specified schema:
+
+#+begin_src racket
+#lang riposte
+
+$schema := {
+  "type": "object",
+  "requiredProperties": ["age", "weight"]
+}
+
+POST $payload to api/flub satisfies schema $schema
+#+end_src
+
+Now, this looks /nothing/ like any of the code we saw above, what is this? At the top of every Racket
+file, we include the line ~#lang racket~. This tells the Racket compiler which /reader/ to use to parse
+the following file. When we use ~#lang racket~, it uses the default Racket reader. But if we change
+that to ~#lang riposte~, then it uses a completely different reader. This allows us to not only expand
+the syntax or our language using ~define-syntax~ but completely break away from s-expressions using
+reader macros. Now, it's important to keep in mind that even though you're essentially providing
+your own parser here, this is /still/ a macro system because your custom reader need to expand to
+plain old Racket code. 
+
+* ProfessorJ
+
+We can use reader macros to make some pretty impressive things:
+
+#+begin_src java
+#lang profj/full
+ 
+class Example {
+  static String result = null;
+
+  public static void Main(String[] args) {
+    result = "Hi";
+  }
+}
+#+end_src
+
+This is a snippet pulled from the Racket docs for a language called ProfessorJ - it's an
+implementation of Java using Racket reader macros.
+
+* Macros and types
+
+Notice how in the Java/Racket code above we have /static typing/. Since the reader-macros are one of
+the first things to run in the compilation process and they just need to output valid Racket code,
+it means that you can have full compile-time type checking in Racket. Typed-Racket, which is a
+gradually typed ~#lang~ that ships with Racket, allows proper static typing with compile-time type
+errors. This means that even though your static typing comes from a library, it's still proper
+compile-time static type checks. There's even an implementation of Haskell in Racket called Hackett
+that demonstrates the flexibility of Racket's macros to implement a very sophisticated static type
+system.
+
+* Rules inside macros 
+
+One thing that can be very helpful to have is rules for how the rest of your program is able to
+interact with macros, or define certain special forms inside your macros. For example, in the ~while~
+loop that we defined at the beginning of this, we would want a ~break~ and ~continue~
+construct. Defining both of those is something that we can do using macros, although it does get
+complicated. We can use ~define-syntax-parameter~ to define the contructs themselves, and define them
+to error when outside the right context: 
+
+#+begin_src racket
+(define-syntax-parameter break
+  (lambda (stx)
+    (raise-syntax-error #f "Used outside the context of a while body" stx)))
+#+end_src
+
+And now we can redefine our while macro to be able to use our new ~break~ construct.
+
+#+begin_src racket
+(define-syntax (while stx)
+  (syntax-case stx ()
+    [(_ cond body ...)
+     (syntax/loc stx
+       (let/ec fresh-break 
+         (let loop ()
+           (when cond
+             (syntax-parameterize 
+                 ([break (force-use-with-parens #'fresh-break)])
+               (begin body ...)))
+             (loop))))]))
+#+end_src
+* What to do with this
+
+Racket provides some insanely powerful meta-programming facilities. From ~define-syntax~ to reader
+macros, we have /a lot/ of flexibility. But what do we use it for? 
+
+As mentioned at the beginning of all of this, macros are just another abstraction tool, just like
+objects or functions. Sometimes an idea that you're trying to express can't really be done cleanly
+in the language that you're using. In those cases, we can build macros to wrap around the idea that
+you're trying to express. 
+
+For example, SQL is a declarative programming language and it's a very clean way of representing
+queries across data. We can of course try to represent SQL queries by chaining functions, and that
+tends to be the way that we do it, but it's never as nice as just SQL. For example, in C# when
+writing database queries you can lean on LINQ to write queries using SQL-like syntax. In Racket, we
+can of course do that using macros. While we're not going to build our own macros around SQL syntax,
+we could easily build a ~#lang~ reader macro that would emulate SQL syntax, or we could write one
+using ~define-syntax~. Something that looks like this:
+
+#+begin_src racket
+(sql #:select *
+     #:from table-name as tn
+     #:where tn.a is not null)
+#+end_src
+
+* Conclusion
+
+Meta-programming and macros allow some very powerful transformations in Lisp, which facilitate the
+creation of new abstractions that we don't really have access to in almost any other language. While
+macros are getting more popular with languages like Rust and Nim implementing them, and even a new
+proposal for Python ([[https://www.python.org/dev/peps/pep-0638/?ref=hvper.com][PEP 638]]) to implement syntactic macros, Lisp is able to use them so naturally
+because of the lack of the dichotomy between code and data, which allows macros to be extremely
+prevalent throughout Lisp programs.
