@@ -6,7 +6,7 @@ Every 2 weeks we're going to be hosting some tech talks here on the Discord serv
 ## Schedule
 *Exact dates and times will be announced closer to each talk in `#📆events`* and will be updated here as much as possible.
 
-| When                | Who               | Topic                                                                          |
+| When (week of)      | Who               | Topic                                                                          |
 |---------------------|-------------------|--------------------------------------------------------------------------------|
 | Aug. 17th '20       | @Pizza#0731       | Distributed Computing                                                          |
 | Aug. 24th '20       | @wmbat#6067       | Performance and Optimization                                                   |
@@ -16,6 +16,7 @@ Every 2 weeks we're going to be hosting some tech talks here on the Discord serv
 | Oct. 21st '20 @ 6PM | @nixin72#3554     | [Metaprogramming and language-oriented programming](metaprogramming/README.md) |
 | Nov. 1st '20 @ 6PM  | @PointFree#6769   | Kotlin + Java: Past, Present, & Future                                         |
 | Nov. 15th '20       | @Ohmnivore#1632   | Haxe                                                                           |
+| Nov. 22nd '20       | @hobbit#8503      | Nix & Nixpkgs for a reproducible and declarative build environment             |
 | Nov. 29th '20       | @notarock#7255    | Emacs                                                                          |
 | Dec. 13th '20       | @Gryphticon#4183  | Docker + Kubernetes                                                            |
 | Feb. 28th '21       | @Sandra#5365      | Unit Testing                                                                   |
