@@ -14,7 +14,8 @@ Every 2 weeks we're going to be hosting some tech talks here on the Discord serv
 | Sep. 20th '20       | @Weierstrass#9163 | WebAssembly in Rust                                                            |
 | Oct. 4th '20        | @Ohmnivore#1632   | GameDev: Grass rendering and procedural generation                             |
 | Oct. 21st '20 @ 6PM | @nixin72#3554     | [Metaprogramming and language-oriented programming](metaprogramming/README.md) |
-| Nov. 1st '20 @ 6Pm  | @PointFree#6769   | Kotlin + Java: Past, Present, & Future                                         |
+| Nov. 1st '20 @ 6PM  | @PointFree#6769   | Kotlin + Java: Past, Present, & Future                                         |
+| Nov. 15th '20       | @Ohmnivore#1632   | Haxe                                                                           |
 | Nov. 29th '20       | @notarock#7255    | Emacs                                                                          |
 | Dec. 13th '20       | @Gryphticon#4183  | Docker + Kubernetes                                                            |
 | Feb. 28th '21       | @Sandra#5365      | Unit Testing                                                                   |
