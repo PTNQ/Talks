@@ -18,7 +18,7 @@ Every 2 weeks we're going to be hosting some tech talks here on the Discord serv
 | Nov. 15th '20       | @Ohmnivore#1632   | Haxe                                                                           |
 | Nov. 22nd '20       | @hobbit#8503      | Nix & Nixpkgs for a reproducible and declarative build environment             |
 | Nov. 29th '20       | @notarock#7255    | Emacs                                                                          |
-| Dec. 13th '20       | Rhongomiant#6017  | Docker + Kubernetes                                                            |
+| Dec. 13th '20       | @Rhongomiant#6017 | Docker + Kubernetes                                                            |
 | Feb. 28th '21       | @Sandra#5365      | Unit Testing                                                                   |
 
 ## Participate
