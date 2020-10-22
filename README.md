@@ -16,6 +16,8 @@ Every 2 weeks we're going to be hosting some tech talks here on the Discord serv
 | Oct. 21st '20 @ 6PM | @nixin72#3554     | [Metaprogramming and language-oriented programming](metaprogramming/README.md) |
 | Nov. 1st '20 @ 6Pm  | @PointFree#6769   | Kotlin + Java: Past, Present, & Future                                         |
 | Nov. 29th '20       | @notarock#7255    | Emacs                                                                          |
+| Dec. 13th '20       | @Gryphticon#4183  | Docker + Kubernetes                                                            |
+| Feb. 28th '21       | @Sandra#5365      | Unit Testing                                                                   |
 
 ## Participate
 If you're interested in giving a talk about something as well, join us in `#tech-talk` and ping `@PointFree#6769` or `@nixin72#3554` and we'll add you to the schedule! 
