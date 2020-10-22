@@ -8,7 +8,7 @@ Every 2 weeks we're going to be hosting some tech talks here on the Discord serv
 
 | When (week of)      | Who               | Topic                                                                          |
 |---------------------|-------------------|--------------------------------------------------------------------------------|
-| Aug. 17th '20       | @Pizza#0731       | Distributed Computing                                                          |
+| Aug. 17th '20       | @Pizza#0731       | [Distributed Computing](distributed-systems/README.md)                         |
 | Aug. 24th '20       | @wmbat#6067       | Performance and Optimization                                                   |
 | Sep. 6th '20        | @Mango#4116       | Systems Programming in Rust                                                    |
 | Sep. 20th '20       | @Weierstrass#9163 | [Introduction to WebAssembly](intro-to-wasm/README.md)                         |
