@@ -19,7 +19,7 @@ Every 2 weeks we're going to be hosting some tech talks here on the Discord serv
 | Nov. 22nd '20       | @hobbit#8503                  | Nix & Nixpkgs for a reproducible and declarative build environment |
 | Nov. 22nd '20.      | @blogueuse sur lesswrong#2698 | IPv6                                                               |
 | Nov. 29th '20       | @notarock#7255                | Emacs                                                              |
-| Dec. 13th '20       | @Rhongomiant#6017             | Docker + Kubernetes                                                |
+| Dec. 13th '20       | @Rhongomiant#6017             | [Introduction to Docker and Kubernetes](docker-kubernetes/)                              |
 | Feb. 28th '21       | @Sandra#5365                  | Unit Testing                                                       |
 
 ## Participate
