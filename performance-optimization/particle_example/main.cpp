@@ -77,7 +77,7 @@ void horizontal_unified_iteration(benchmark::State& state)
 
    for (auto _ : state)
    {
-      for (std::size_t i = 0u; i < state.range(0); ++i)
+      for (std::int64_t i = 0u; i < state.range(0); ++i)
       {
          data.positions[i] = vec3{1.0, 1.0, 1.0};
          data.velocities[i] = vec3{1.0, 1.0, 1.0};

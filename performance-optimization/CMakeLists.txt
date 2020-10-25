@@ -26,11 +26,6 @@ project(tektalk
     LANGUAGES CXX
 )
 
-# User interface declarations
-
-option(BUILD_SIMPLE_LOOP "" ON)
-option(BUILD_PARTICLES_EXAMPLE "" OFF)
-
 # General Settings
 
 # If no build type is specified, assume Release
@@ -43,10 +38,5 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
 
 # Set which example to build
 
-if (BUILD_SIMPLE_LOOP)
-    add_subdirectory(simple_loop)
-endif ()
-
-if (BUILD_PARTICLES_EXAMPLE)
-    add_subdirectory(particle_example)
-endif ()
+add_subdirectory(simple_loop)
+add_subdirectory(particle_example)
