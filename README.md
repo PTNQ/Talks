@@ -17,7 +17,7 @@ Every 2 weeks we're going to be hosting some tech talks here on the Discord serv
 | Nov. 1st '20 @ 6PM  | @PointFree#6769               | [Kotlin + Java: Past, Present, & Future](kotlin-java/)                         |
 | Nov. 15th '20       | @Ohmnivore#1632               | [Introduction to Haxe](intro-to-haxe/)                                         |
 | Nov. 22nd '20       | @hobbit#8503                  | Nix & Nixpkgs for a reproducible and declarative build environment             |
-| Nov. 22nd '20.      | @blogueuse sur lesswrong#2698 | IPv6                                                                           |
+| Nov. 22nd '20.      | @blogueuse sur lesswrong#2698 | [IPv6](ipv6/)                                                                  |
 | Nov. 29th '20       | @notarock#7255                | Emacs                                                                          |
 | Dec. 13th '20       | @Rhongomiant#6017             | [Introduction to Docker and Kubernetes](docker-kubernetes/)                    |
 | Feb. 28th '21       | @Sandra#5365                  | Unit Testing                                                                   |
