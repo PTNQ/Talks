@@ -24,6 +24,7 @@ Every 2 weeks we're going to be hosting some tech talks here on the Discord serv
 
 ### Winter 2021
 | When (week of)      | Who                           | Topic                                                                          |
+|---------------------|-------------------------------|--------------------------------------------------------------------------------|
 | Jan. 18th '21 @5PM  | Dr Beverley Fumex             | Mental Health                                                                  |
 | Feb. 1st  '21       | @notarock                     | Introduction to modal editing with Vi/Vim                                      |
 | Feb. 15th '21       | game dev club                 | Introduction to C# programming in Unity                                        |
