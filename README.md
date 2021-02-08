@@ -19,7 +19,6 @@ Every 2 weeks we're going to be hosting some tech talks here on the Discord serv
 | Nov. 15th '20       | @Ohmnivore#1632               | [Introduction to Haxe](intro-to-haxe/)                                         |
 | Nov. 22nd '20       | @hobbit#8503                  | Nix & Nixpkgs for a reproducible and declarative build environment             |
 | Nov. 22nd '20       | @blogueuse sur lesswrong#2698 | [IPv6](ipv6/)                                                                  |
-| Nov. 29th '20       | @notarock#7255                | Emacs                                                                          |
 | Dec. 13th '20 @ 6PM | @Rhongomiant#6017             | [Introduction to Docker and Kubernetes](docker-kubernetes/)                    |
 
 ### Winter 2021

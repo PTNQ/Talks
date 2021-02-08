@@ -1,0 +1,24 @@
+{
+  "name": "modal-editing-with-vim-presentation",
+  "version": "1.0.0",
+  "description": "Contains my source file for my \"Modal editing with Vi/Vim\" talk.",
+  "main": "index.js",
+  "scripts": {
+    "start": "reveal-md presentation.md",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/notarock/modal-editing-with-vim-presentation.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/notarock/modal-editing-with-vim-presentation/issues"
+  },
+  "homepage": "https://github.com/notarock/modal-editing-with-vim-presentation#readme",
+  "dependencies": {
+    "reveal": "0.0.4",
+    "reveal-md": "^4.1.7"
+  }
+}
