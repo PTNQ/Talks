@@ -29,6 +29,7 @@ Every 2 weeks we're going to be hosting some tech talks here on the Discord serv
 | Feb. 15th '21 @7PM  | game dev club                 | Introduction to C# programming in Unity                                        |
 | Feb. 28th '21       | @Sandra#5365                  | Unit Testing                                                                   |
 | Mar. 15th '21       | @nixin72                      | Intro to emacs: doom, org-mode, magit, elisp and more                          |
+| Apr. 1st  '21       | @dawgears                     | Writing RESTful APIs in Java with Spring                                       |
 | Apr. 12th '21       | @nixin72                      | Intro to mobile development with React Native and TypeScript                   |
 
 
