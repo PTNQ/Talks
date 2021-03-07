@@ -34,7 +34,7 @@ Every 2 weeks we're going to be hosting some tech talks here on the Discord serv
 
 
 ## Participate
-If you're interested in giving a talk about something as well, join us in `#tech-talk` and ping `@PointFree#6769` or `@nixin72#3554` and we'll add you to the schedule! 
+If you're interested in giving a talk about something as well, join us in `#tech-talk` and ping `@nixin72#3554` and I'll add you to the schedule! 
 
 ## Disclaimer
 These are meant to be fun, friendly, and educational. The people giving the talks are not experts in their topics, but they are excited about them and are looking to share what they've been learning.
