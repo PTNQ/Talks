@@ -1,7 +1,7 @@
 # Concordia ENCS (Gina Cody) Discord Tech Talks
 
 ## Description
-Every 2 weeks we're going to be hosting some tech talks here on the Discord server (join by clicking on the [link here](https://discord.com/invite/concoengrcs)). The talks will be around an hour long and are each about different technologies, tools and techniques. The talks will be streamed in the voice channel `#TechTalk` just below this channel having the same name (`#tech-talk`). If you're interested in them, please drop in and listen and learn something fascinating.
+Every 2 weeks we're going to be hosting some tech talks here on the Discord server. The talks will be around an hour long and are each about different technologies, tools and techniques. The talks will be streamed in the voice channel `#TechTalk` just below this channel having the same name (`#tech-talk`). If you're interested in them, please drop in and listen and learn something fascinating.
 
 ## Schedule
 *Exact dates and times will be announced closer to each talk in `#📆events`* and will be updated here as much as possible.
